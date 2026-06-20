@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Operator's Bookshelf — Red / Blue / Purple Team Reading Roadmap</title>
+<meta name="description" content="A curated, skill-first book roadmap for becoming a Red Team Pentester, Blue Team Defender, or Purple Team Cybersecurity Expert." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0b0d;
+    --bg-raised:#101216;
+    --bg-card:#13151a;
+    --line:#23262d;
+    --line-soft:#1a1c22;
+    --ink:#e4e2dd;
+    --ink-dim:#9499a3;
+    --ink-faint:#5d626b;
+
+    --red:#e2483d;
+    --red-dim:#8a3530;
+    --red-glow:rgba(226,72,61,0.10);
+
+    --blue:#4090e2;
+    --blue-dim:#2f5f8a;
+    --blue-glow:rgba(64,144,226,0.10);
+
+    --purple:#a767e8;
+    --purple-dim:#6a4791;
+    --purple-glow:rgba(167,103,232,0.10);
+
+    --accent: var(--red);
+    --accent-dim: var(--red-dim);
+    --accent-glow: var(--red-glow);
+
+    --mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    --sans: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  a{color:inherit}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+  /* ===== Top bar ===== */
+  .topbar{
+    border-bottom:1px solid var(--line-soft);
+    padding:16px 0;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-faint);
+  }
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .topbar .path{color:var(--ink-dim)}
+  .topbar .path span{color:var(--accent)}
+  .dot-status{display:inline-flex;align-items:center;gap:6px}
+  .dot{width:6px;height:6px;border-radius:50%;background:#3ddc6a;display:inline-block;box-shadow:0 0 6px #3ddc6a}
+
+  /* ===== Hero ===== */
+  .hero{
+    padding:80px 0 56px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .hero .kicker{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .hero .kicker::before{
+    content:"";
+    width:18px;height:1px;background:var(--ink-faint);display:inline-block;
+  }
+  .hero h1{
+    font-size:clamp(34px, 5vw, 56px);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    margin:0 0 20px;
+    font-weight:600;
+    max-width:820px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--ink-faint);
+  }
+  .hero p.lead{
+    font-size:17px;
+    color:var(--ink-dim);
+    max-width:620px;
+    margin:0 0 28px;
+  }
+  .hero .terminal{
+    font-family:var(--mono);
+    font-size:13.5px;
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px 20px;
+    max-width:620px;
+    color:var(--ink-dim);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .terminal .ln{display:block;margin:2px 0}
+  .hero .terminal .prompt{color:#3ddc6a}
+  .hero .terminal .cmd{color:var(--ink)}
+  .hero .terminal .out{color:var(--ink-faint)}
+  .cursor{
+    display:inline-block;width:7px;height:14px;background:var(--ink-dim);
+    vertical-align:middle;margin-left:2px;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0}}
+
+  /* ===== Track switcher ===== */
+  .switcher-section{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(10,11,13,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .switcher{
+    display:flex;
+    gap:0;
+    padding:14px 0;
+  }
+  .track-btn{
+    flex:1;
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--ink-dim);
+    font-family:var(--sans);
+    font-size:14.5px;
+    font-weight:600;
+    padding:13px 18px;
+    cursor:pointer;
+    border-radius:8px;
+    margin-right:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:border-color .15s, color .15s, background .15s;
+  }
+  .track-btn:last-child{margin-right:0}
+  .track-btn .tag{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-faint);
+    font-weight:400;
+  }
+  .track-btn .led{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);flex-shrink:0}
+
+  .track-btn[data-track="red"]:hover{border-color:var(--red-dim);color:var(--ink)}
+  .track-btn[data-track="blue"]:hover{border-color:var(--blue-dim);color:var(--ink)}
+  .track-btn[data-track="purple"]:hover{border-color:var(--purple-dim);color:var(--ink)}
+
+  .track-btn[data-track="red"].active{border-color:var(--red);color:var(--ink);background:var(--red-glow)}
+  .track-btn[data-track="red"].active .led{background:var(--red);box-shadow:0 0 8px var(--red)}
+  .track-btn[data-track="blue"].active{border-color:var(--blue);color:var(--ink);background:var(--blue-glow)}
+  .track-btn[data-track="blue"].active .led{background:var(--blue);box-shadow:0 0 8px var(--blue)}
+  .track-btn[data-track="purple"].active{border-color:var(--purple);color:var(--ink);background:var(--purple-glow)}
+  .track-btn[data-track="purple"].active .led{background:var(--purple);box-shadow:0 0 8px var(--purple)}
+
+  /* ===== Track panels ===== */
+  .track-panel{display:none; padding:48px 0 80px}
+  .track-panel.active{display:block}
+
+  .track-header{
+    margin-bottom:40px;
+    padding-bottom:28px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .track-header .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    margin-bottom:10px;
+  }
+  .track-header h2{
+    font-size:30px;
+    margin:0 0 12px;
+    font-weight:600;
+  }
+  .track-header p{
+    color:var(--ink-dim);
+    max-width:680px;
+    margin:0 0 18px;
+    font-size:15.5px;
+  }
+  .track-meta{
+    display:flex;
+    gap:24px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-faint);
+    flex-wrap:wrap;
+  }
+  .track-meta b{color:var(--ink-dim);font-weight:600}
+
+  /* ===== Phase blocks ===== */
+  .phase{
+    border:1px solid var(--line);
+    border-radius:10px;
+    margin-bottom:16px;
+    background:var(--bg-card);
+    overflow:hidden;
+  }
+  .phase-head{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:18px 22px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .phase-num{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-faint);
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:3px 8px;
+    flex-shrink:0;
+  }
+  .phase-head h3{
+    margin:0;
+    font-size:16px;
+    font-weight:600;
+    flex:1;
+  }
+  .phase-head .sub{
+    font-size:12.5px;
+    color:var(--ink-faint);
+    font-family:var(--mono);
+    flex-shrink:0;
+  }
+  .chevron{
+    width:9px;height:9px;
+    border-right:1.5px solid var(--ink-faint);
+    border-bottom:1.5px solid var(--ink-faint);
+    transform:rotate(-45deg);
+    transition:transform .2s;
+    flex-shrink:0;
+    margin-right:2px;
+  }
+  .phase.open .chevron{transform:rotate(45deg)}
+
+  .phase-body{
+    display:none;
+    padding:0 22px 22px;
+    border-top:1px solid var(--line-soft);
+  }
+  .phase.open .phase-body{display:block}
+
+  .skill-line{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--ink-faint);
+    margin:18px 0 10px;
+  }
+  .skill-line:first-child{margin-top:20px}
+
+  .book-grid{
+    display:grid;
+    gap:10px;
+  }
+  .book{
+    display:flex;
+    gap:14px;
+    padding:13px 14px;
+    border:1px solid var(--line-soft);
+    border-radius:8px;
+    background:var(--bg-raised);
+    align-items:flex-start;
+  }
+  .book .num{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-faint);
+    min-width:22px;
+    padding-top:1px;
+  }
+  .book .info{flex:1}
+  .book .title{
+    font-weight:600;
+    font-size:14px;
+    margin:0 0 3px;
+  }
+  .book .why{
+    color:var(--ink-dim);
+    font-size:13px;
+    margin:0;
+  }
+  .book .badge{
+    font-family:var(--mono);
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    padding:2px 7px;
+    border-radius:4px;
+    flex-shrink:0;
+    margin-top:1px;
+    white-space:nowrap;
+  }
+  .badge.core{background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent-dim)}
+  .badge.ai{background:rgba(167,103,232,0.12);color:#c79bf0;border:1px solid var(--purple-dim)}
+  .badge.opt{background:transparent;color:var(--ink-faint);border:1px solid var(--line)}
+
+  .skip-box{
+    margin-top:18px;
+    padding:13px 16px;
+    border:1px dashed var(--line);
+    border-radius:8px;
+    font-size:13px;
+    color:var(--ink-faint);
+  }
+  .skip-box b{color:var(--ink-dim)}
+
+  /* ===== Footer ===== */
+  footer{
+    border-top:1px solid var(--line-soft);
+    padding:36px 0 60px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-faint);
+  }
+  footer .foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  footer a{color:var(--ink-dim);text-decoration:underline; text-decoration-color: var(--line)}
+  footer a:hover{color:var(--accent)}
+
+  /* ===== Misc ===== */
+  .legend{
+    display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);
+  }
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend .sw{width:8px;height:8px;border-radius:2px;display:inline-block}
+
+  @media (max-width:760px){
+    .switcher{flex-direction:column;gap:10px}
+    .track-btn{margin-right:0}
+    .track-meta{gap:14px}
+    .topbar .wrap{font-size:11px}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .cursor{animation:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="path">~/security-reading-roadmap <span>$</span> ls -la tracks/</div>
+    <div class="dot-status"><span class="dot"></span> 3 tracks · 90+ books indexed</div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">A self-study curriculum, not a certification cram</p>
+    <h1>Read like an operator.<br><em>Three roles. Three reading lists. One shelf.</em></h1>
+    <p class="lead">
+      A skill-first book roadmap for three paths into cybersecurity: offense (Red Team), defense (Blue Team), and the convergence of both (Purple Team). Every entry is chosen for what it teaches you to <em>do</em>, not what it helps you pass.
+    </p>
+    <div class="terminal">
+      <span class="ln"><span class="prompt">$</span> <span class="cmd">whoami --track</span></span>
+      <span class="ln out">→ pick a role below: red, blue, or purple</span>
+      <span class="ln"><span class="prompt">$</span> <span class="cmd">cat philosophy.md</span></span>
+      <span class="ln out">skills over certificates. labs over flashcards.<span class="cursor"></span></span>
+    </div>
+  </div>
+</header>
+
+<div class="switcher-section">
+  <div class="wrap">
+    <div class="switcher">
+      <button class="track-btn active" data-track="red">
+        <span class="led"></span> Red Team <span class="tag">// offense</span>
+      </button>
+      <button class="track-btn" data-track="blue">
+        <span class="led"></span> Blue Team <span class="tag">// defense</span>
+      </button>
+      <button class="track-btn" data-track="purple">
+        <span class="led"></span> Purple Team <span class="tag">// fusion</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ============ RED TEAM ============ -->
+  <section class="track-panel active" id="panel-red">
+    <div class="track-header">
+      <p class="eyebrow" style="color:var(--red)">// OFFENSE</p>
+      <h2>Red Team Pentester</h2>
+      <p>You think like the adversary: find the gap, write the exploit, move through the network, stay unseen. This track moves from foundations to scripting to exploitation to full adversary emulation, and closes with attacking AI systems — the newest target on the map.</p>
+      <div class="track-meta">
+        <span><b>7</b> phases</span>
+        <span><b>34</b> books</span>
+        <span>focus: <b>offense, exploitation, adversary emulation</b></span>
+      </div>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--red)"></i> core read</span>
+        <span><i class="sw" style="background:#c79bf0"></i> AI security</span>
+        <span><i class="sw" style="background:var(--ink-faint)"></i> optional / reference</span>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">01</span>
+        <h3>Foundations — Networking, Linux, Security Mindset</h3>
+        <span class="sub">5 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: how networks and systems actually work</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">1</span><div class="info"><p class="title">CompTIA Network+ Guide to Networks</p><p class="why">Deep grounding in networking fundamentals — TCP/IP, routing, protocols — without the exam framing.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">2</span><div class="info"><p class="title">Network Basics for Hackers</p><p class="why">Same fundamentals, viewed through an attacker's lens from page one.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">3</span><div class="info"><p class="title">Foundations of Information Security: A Straightforward Introduction</p><p class="why">A clean, jargon-light overview of security concepts that everything else builds on.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">4</span><div class="info"><p class="title">The Linux Command Line</p><p class="why">Daily-driver Linux fluency — you'll live in a terminal for the rest of this list.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">5</span><div class="info"><p class="title">Linux Basics for Hackers</p><p class="why">Turns the OS into an offensive platform: networking tools, Bash, Wi-Fi attacks.</p></div><span class="badge core">core</span></div>
+        </div>
+        <div class="skip-box"><b>Skip:</b> Network+/Security+/Linux+ Exam Cram, Official Student Guides, Professor Messer notes — built for passing a test, not building a skill.</div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">02</span>
+        <h3>Programming &amp; Scripting for Offense</h3>
+        <span class="sub">10 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: Python for tooling &amp; exploit dev</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">6</span><div class="info"><p class="title">Python Crash Course (3rd Edition)</p><p class="why">Fundamentals plus real projects — your base before anything offensive.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">7</span><div class="info"><p class="title">Beyond the Basic Stuff with Python</p><p class="why">Clean, idiomatic, maintainable code habits — write tools you can reuse and trust.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">8</span><div class="info"><p class="title">Black Hat Python (2nd Edition)</p><p class="why">Network sniffers, trojans, web hacking, exploit and payload scripting.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">9</span><div class="info"><p class="title">Gray Hat Python</p><p class="why">Reverse engineering and malware analysis tooling built in Python.</p></div><span class="badge core">core</span></div>
+        </div>
+        <p class="skill-line">Skill: shell scripting for operators</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">10</span><div class="info"><p class="title">Black Hat Bash</p><p class="why">Bash scripting written specifically for hackers and pentesters.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">11</span><div class="info"><p class="title">Wicked Cool Shell Scripts</p><p class="why">A library of practical, reusable everyday automation scripts.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">12</span><div class="info"><p class="title">PowerShell for Sysadmins</p><p class="why">Understand PowerShell as the defenders' automation tool before you weaponize it.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">13</span><div class="info"><p class="title">PowerShell Scripts for Hackers &amp; Pentesters</p><p class="why">The same language, repurposed for offense — living-off-the-land tradecraft.</p></div><span class="badge core">core</span></div>
+        </div>
+        <p class="skill-line">Skill: database &amp; SQL exploitation</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">14</span><div class="info"><p class="title">SQL Injection Attacks and Defense</p><p class="why">The definitive reference on SQLi — still the most common critical web finding.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">15</span><div class="info"><p class="title">The Database Hacker's Handbook</p><p class="why">Advanced, engine-specific database exploitation beyond basic injection.</p></div><span class="badge opt">optional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">03</span>
+        <h3>Core Hacking &amp; Penetration Testing</h3>
+        <span class="sub">7 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: exploit fundamentals &amp; methodology</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">16</span><div class="info"><p class="title">Hacking: The Art of Exploitation</p><p class="why">The classic that teaches you to think like an attacker at the memory and binary level.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">17</span><div class="info"><p class="title">Penetration Testing: A Hands-On Introduction to Hacking</p><p class="why">Guided labs that build a repeatable pentest methodology from scratch.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">18</span><div class="info"><p class="title">The Hacker Playbook 1</p><p class="why">The first structured, end-to-end pentesting playbook — engagement to report.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">19</span><div class="info"><p class="title">The Hacker Playbook 2</p><p class="why">Deeper exploitation chains and network pivoting techniques.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">20</span><div class="info"><p class="title">The Hacker Playbook 3</p><p class="why">Red Team-specific: stealth, persistence, and evading detection.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">21</span><div class="info"><p class="title">Metasploit Pen Testing Cookbook</p><p class="why">Tool mastery — get fluent in the framework you'll lean on constantly.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">22</span><div class="info"><p class="title">Mastering Modern Web Penetration Testing</p><p class="why">Brings the methodology up to date for modern web application stacks.</p></div><span class="badge opt">optional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">04</span>
+        <h3>API &amp; Web Application Exploitation</h3>
+        <span class="sub">3 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: modern API attack surfaces</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">23</span><div class="info"><p class="title">Black Hat GraphQL</p><p class="why">GraphQL-specific exploitation — a surface most pentest training still skips.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">24</span><div class="info"><p class="title">Hacking APIs</p><p class="why">A practical, end-to-end guide to breaking REST and modern web APIs.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">25</span><div class="info"><p class="title">Attacking Next-Generation APIs</p><p class="why">Goes further into newer API architectures and authentication schemes.</p></div><span class="badge core">core</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">05</span>
+        <h3>Advanced Red Teaming &amp; Exploit Development</h3>
+        <span class="sub">3 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: full adversary emulation</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">26</span><div class="info"><p class="title">Red Team Development and Operations: A Practical Guide</p><p class="why">The full Red Team workflow — planning, infrastructure, execution, reporting.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">27</span><div class="info"><p class="title">Attacking Network Protocols</p><p class="why">Protocol-level exploitation: the layer most testers never go deep on.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">28</span><div class="info"><p class="title">Hands-On Ethical Hacking and Network Defense</p><p class="why">A mixed offense/defense view that sharpens how you anticipate the blue side.</p></div><span class="badge opt">optional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 6 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">06</span>
+        <h3>OSINT &amp; Social Engineering</h3>
+        <span class="sub">4 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: human and open-source attack vectors</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">29</span><div class="info"><p class="title">Open Source Intelligence Techniques (8th/10th Ed.)</p><p class="why">The standard reference for building target profiles from public data.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">30</span><div class="info"><p class="title">Practical Social Engineering</p><p class="why">Hands-on pretexting, phishing design, and engagement tradecraft.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">31</span><div class="info"><p class="title">Social Engineering: The Science of Human Hacking (2nd Ed.)</p><p class="why">The psychology underneath every successful social engineering campaign.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">32</span><div class="info"><p class="title">The Art of Deception</p><p class="why">Mitnick's classic — still the best gut-level intro to pretexting.</p></div><span class="badge opt">optional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 7 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">07</span>
+        <h3>AI Red Teaming &amp; Adversarial ML</h3>
+        <span class="sub">4 books · the new frontier</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: attacking AI/ML systems</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">33</span><div class="info"><p class="title">Not with a Bug, But with a Sticker</p><p class="why">Real-world adversarial ML attacks — how machine learning systems actually fail in production.</p></div><span class="badge ai">AI security</span></div>
+          <div class="book"><span class="num">34</span><div class="info"><p class="title">Adversarial AI Attacks, Mitigations, and Defense Strategies</p><p class="why">Prompt injection, model extraction, evasion, and poisoning attacks against modern AI systems.</p></div><span class="badge ai">AI security</span></div>
+          <div class="book"><span class="num">35</span><div class="info"><p class="title">The Mathematical Engineering of Deep Learning</p><p class="why">Enough of the underlying math to reason about <em>why</em> an attack against a model works.</p></div><span class="badge opt">optional</span></div>
+          <div class="book"><span class="num">36</span><div class="info"><p class="title">Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</p><p class="why">Build and train models yourself — you can't break what you don't understand.</p></div><span class="badge opt">optional</span></div>
+        </div>
+        <div class="skip-box"><b>Anonymity &amp; closing reads:</b> The Art of Invisibility · Extreme Privacy: What It Takes to Disappear · Countdown to Zero Day — OPSEC discipline and real-world APT case studies to round out the operator mindset.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BLUE TEAM ============ -->
+  <section class="track-panel" id="panel-blue">
+    <div class="track-header">
+      <p class="eyebrow" style="color:var(--blue)">// DEFENSE</p>
+      <h2>Blue Team Security Expert</h2>
+      <p>You build the systems that detect, contain, and recover. This track moves from the same hard foundations through monitoring, incident response, and forensics, and ends with defending the AI systems your org is now shipping.</p>
+      <div class="track-meta">
+        <span><b>6</b> phases</span>
+        <span><b>27</b> books</span>
+        <span>focus: <b>detection, response, forensics, resilience</b></span>
+      </div>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--blue)"></i> core read</span>
+        <span><i class="sw" style="background:#c79bf0"></i> AI security</span>
+        <span><i class="sw" style="background:var(--ink-faint)"></i> optional / reference</span>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">01</span>
+        <h3>Foundations — Networking, Linux, Security Mindset</h3>
+        <span class="sub">5 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: how networks and systems actually work</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">1</span><div class="info"><p class="title">CompTIA Network+ Guide to Networks</p><p class="why">You can't defend traffic you don't understand — protocols, routing, topology.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">2</span><div class="info"><p class="title">Network Basics for Hackers</p><p class="why">See the network the way an attacker does, so you know what to watch for.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">3</span><div class="info"><p class="title">Foundations of Information Security: A Straightforward Introduction</p><p class="why">The conceptual base — CIA triad, risk, controls — everything else assumes this.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">4</span><div class="info"><p class="title">The Linux Command Line</p><p class="why">Most servers and security tooling live on Linux; fluency is non-negotiable.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">5</span><div class="info"><p class="title">How Linux Works (3rd Edition)</p><p class="why">OS internals depth — what you need when triaging a compromised host.</p></div><span class="badge core">core</span></div>
+        </div>
+        <div class="skip-box"><b>Skip:</b> Network+/Security+/Linux+ Exam Cram, Official Student Guides, "For Dummies" titles — exam-shaped, not skill-shaped.</div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">02</span>
+        <h3>Scripting &amp; Automation for Defenders</h3>
+        <span class="sub">6 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: Python for tooling, parsing, and automation</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">6</span><div class="info"><p class="title">Python Crash Course (3rd Edition)</p><p class="why">Your base language for writing parsers, log analysis tools, and detections.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">7</span><div class="info"><p class="title">Beyond the Basic Stuff with Python</p><p class="why">Clean code matters more on the blue side — your tools run unattended in production.</p></div><span class="badge core">core</span></div>
+        </div>
+        <p class="skill-line">Skill: shell &amp; enterprise automation</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">8</span><div class="info"><p class="title">Wicked Cool Shell Scripts</p><p class="why">Practical day-to-day automation for monitoring, log rotation, and triage.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">9</span><div class="info"><p class="title">PowerShell for Sysadmins</p><p class="why">The default automation and remote-management language of Windows environments.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">10</span><div class="info"><p class="title">Mastering PowerShell</p><p class="why">Deeper scripting skill for building defensive tooling at enterprise scale.</p></div><span class="badge opt">optional</span></div>
+        </div>
+        <p class="skill-line">Skill: understanding the database attack surface</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">11</span><div class="info"><p class="title">SQL Injection Attacks and Defense</p><p class="why">You defend against it best when you understand the attack in full.</p></div><span class="badge core">core</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">03</span>
+        <h3>Detection, Monitoring &amp; SOC Operations</h3>
+        <span class="sub">5 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: building and running detection</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">12</span><div class="info"><p class="title">The Practice of Network Security Monitoring</p><p class="why">The foundational text on building a detection program from packets up.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">13</span><div class="info"><p class="title">Practical Packet Analysis</p><p class="why">Wireshark fluency — the gold standard skill for reading real traffic.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">14</span><div class="info"><p class="title">Blue Team Handbook: SOC &amp; SIEM</p><p class="why">A field-reference for day-to-day SOC analyst workflows and triage.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">15</span><div class="info"><p class="title">The Security Intelligence Handbook</p><p class="why">How threat intelligence actually feeds into detection and prioritization.</p></div><span class="badge opt">optional</span></div>
+          <div class="book"><span class="num">16</span><div class="info"><p class="title">Cybersecurity Attack and Defense Strategies</p><p class="why">A broad, current view connecting attacker techniques to defensive controls.</p></div><span class="badge opt">optional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">04</span>
+        <h3>Incident Response</h3>
+        <span class="sub">4 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: responding to live compromise</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">17</span><div class="info"><p class="title">Digital Forensics and Incident Response (2nd Edition)</p><p class="why">The core IR lifecycle text — preparation through lessons learned.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">18</span><div class="info"><p class="title">Hands-On Incident Response and Digital Forensics</p><p class="why">Lab-driven practice so the IR lifecycle becomes muscle memory.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">19</span><div class="info"><p class="title">Intelligence-Driven Incident Response</p><p class="why">SOC-level maturity — using threat intel to drive faster, smarter response.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">20</span><div class="info"><p class="title">Computer Incident Response and Forensics Team Management</p><p class="why">How to actually run an IR team, not just perform one investigation.</p></div><span class="badge opt">optional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">05</span>
+        <h3>Digital Forensics</h3>
+        <span class="sub">5 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: evidence capture and deep investigation</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">21</span><div class="info"><p class="title">Practical Forensic Imaging</p><p class="why">The non-negotiable first skill: capturing evidence without altering it.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">22</span><div class="info"><p class="title">Practical Linux Forensics</p><p class="why">OS-specific investigation techniques for the platform you'll see most.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">23</span><div class="info"><p class="title">Digital Forensics with Open Source Tools</p><p class="why">Tool-based, hands-on investigation without relying on expensive licenses.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">24</span><div class="info"><p class="title">Digital Triage Forensics</p><p class="why">Fast, field-ready response when you don't have time for a full lab workflow.</p></div><span class="badge opt">optional</span></div>
+          <div class="book"><span class="num">25</span><div class="info"><p class="title">Industrial Cybersecurity (2nd Edition)</p><p class="why">Forensics and defense in OT/ICS environments — a distinct and growing specialty.</p></div><span class="badge opt">optional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 6 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">06</span>
+        <h3>AI Security &amp; Defending ML Systems</h3>
+        <span class="sub">4 books · the new frontier</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: securing and monitoring AI/ML in production</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">26</span><div class="info"><p class="title">Adversarial AI Attacks, Mitigations, and Defense Strategies</p><p class="why">Read it from the defender's side: what mitigations actually hold up against prompt injection and model abuse.</p></div><span class="badge ai">AI security</span></div>
+          <div class="book"><span class="num">27</span><div class="info"><p class="title">Designing Secure and Resilient Software Systems with AI</p><p class="why">Architectural patterns for building AI-integrated systems that fail safely.</p></div><span class="badge ai">AI security</span></div>
+          <div class="book"><span class="num">28</span><div class="info"><p class="title">Practical AI Governance and Risk Management</p><p class="why">Policy, model inventory, and risk frameworks for AI systems entering the enterprise.</p></div><span class="badge ai">AI security</span></div>
+          <div class="book"><span class="num">29</span><div class="info"><p class="title">Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</p><p class="why">Enough modeling literacy to read an ML pipeline and spot where it can be abused.</p></div><span class="badge opt">optional</span></div>
+        </div>
+        <div class="skip-box"><b>Skip:</b> CEH / CHFI / SSCP / EnCase official study guides and exam crams unless you specifically need the certification — same content, slower and exam-shaped.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PURPLE TEAM ============ -->
+  <section class="track-panel" id="panel-purple">
+    <div class="track-header">
+      <p class="eyebrow" style="color:var(--purple)">// FUSION</p>
+      <h2>Purple Team Cybersecurity Expert</h2>
+      <p>You sit between offense and defense on purpose — running attacks to validate detections, then tuning those detections until the same attack fails next time. This track assumes working familiarity with both prior tracks and adds the connective skills: threat-informed defense, adversary emulation against your own controls, and securing the AI layer from both directions.</p>
+      <div class="track-meta">
+        <span><b>5</b> phases</span>
+        <span><b>23</b> books</span>
+        <span>focus: <b>threat-informed defense, validation, fusion</b></span>
+      </div>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--purple)"></i> core read</span>
+        <span><i class="sw" style="background:#c79bf0"></i> AI security</span>
+        <span><i class="sw" style="background:var(--ink-faint)"></i> optional / reference</span>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">01</span>
+        <h3>Shared Foundation — Both Sides of the Table</h3>
+        <span class="sub">5 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: fluency in both attacker and defender fundamentals</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">1</span><div class="info"><p class="title">CompTIA Network+ Guide to Networks</p><p class="why">A shared vocabulary with both red and blue teammates starts here.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">2</span><div class="info"><p class="title">Network Basics for Hackers</p><p class="why">The attacker's read on the same infrastructure you just learned to defend.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">3</span><div class="info"><p class="title">The Linux Command Line</p><p class="why">Operational fluency, regardless of which hat you're wearing that day.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">4</span><div class="info"><p class="title">Hands-On Ethical Hacking and Network Defense</p><p class="why">Explicitly written from both perspectives at once — the right tone for this role.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">5</span><div class="info"><p class="title">Cybersecurity Attack and Defense Strategies</p><p class="why">Maps attacker techniques directly to the defensive controls that counter them.</p></div><span class="badge core">core</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">02</span>
+        <h3>Threat-Informed Defense</h3>
+        <span class="sub">4 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: using real adversary behavior to drive priorities</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">6</span><div class="info"><p class="title">Intelligence-Driven Incident Response</p><p class="why">The mindset shift from "respond to alerts" to "respond to known adversary behavior."</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">7</span><div class="info"><p class="title">The Security Intelligence Handbook</p><p class="why">How threat intel gets collected, scored, and turned into action on both sides.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">8</span><div class="info"><p class="title">The Practice of Network Security Monitoring</p><p class="why">You can't validate a detection you don't first understand how to build.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">9</span><div class="info"><p class="title">Countdown to Zero Day</p><p class="why">A real-world APT case study — the kind of campaign your purple exercises should emulate.</p></div><span class="badge opt">optional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">03</span>
+        <h3>Adversary Emulation &amp; Validation</h3>
+        <span class="sub">6 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: running controlled attacks to test real controls</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">10</span><div class="info"><p class="title">Red Team Development and Operations: A Practical Guide</p><p class="why">Understand the full Red Team workflow you'll be emulating and measuring against.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">11</span><div class="info"><p class="title">The Hacker Playbook 2</p><p class="why">Concrete attack chains you can map directly onto your detection stack.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">12</span><div class="info"><p class="title">Metasploit Pen Testing Cookbook</p><p class="why">The tool you'll most often use to generate test telemetry for blue to tune against.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">13</span><div class="info"><p class="title">Black Hat Python (2nd Edition)</p><p class="why">Build your own emulation scripts when off-the-shelf tools won't cut it.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">14</span><div class="info"><p class="title">Practical Vulnerability Management</p><p class="why">Closing the loop: turning validated findings into tracked, prioritized remediation.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">15</span><div class="info"><p class="title">Attacking Network Protocols</p><p class="why">Protocol-level attacks are exactly the gaps that generic detections miss.</p></div><span class="badge opt">optional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">04</span>
+        <h3>API, Web &amp; Application Layer Fusion</h3>
+        <span class="sub">4 books</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: closing the loop on the modern app attack surface</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">16</span><div class="info"><p class="title">Hacking APIs</p><p class="why">Know the attack so you can write a detection or WAF rule that actually fires.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">17</span><div class="info"><p class="title">SQL Injection Attacks and Defense</p><p class="why">One of the few books genuinely written for both the attack and the fix.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">18</span><div class="info"><p class="title">Network Security Assessment</p><p class="why">A structured way to assess and re-test what you've already remediated.</p></div><span class="badge core">core</span></div>
+          <div class="book"><span class="num">19</span><div class="info"><p class="title">Attacking Next-Generation APIs</p><p class="why">Stay current as API authentication and architecture patterns keep shifting.</p></div><span class="badge opt">optional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="chevron"></span>
+        <span class="phase-num">05</span>
+        <h3>AI Security From Both Sides</h3>
+        <span class="sub">4 books · the new frontier</span>
+      </div>
+      <div class="phase-body">
+        <p class="skill-line">Skill: red-teaming and defending AI systems in the same breath</p>
+        <div class="book-grid">
+          <div class="book"><span class="num">20</span><div class="info"><p class="title">Adversarial AI Attacks, Mitigations, and Defense Strategies</p><p class="why">The single most purple-relevant title here — attack technique and mitigation side by side.</p></div><span class="badge ai">AI security</span></div>
+          <div class="book"><span class="num">21</span><div class="info"><p class="title">Not with a Bug, But with a Sticker</p><p class="why">Grounded, real-world adversarial ML cases to emulate in your own exercises.</p></div><span class="badge ai">AI security</span></div>
+          <div class="book"><span class="num">22</span><div class="info"><p class="title">Practical AI Governance and Risk Management</p><p class="why">The policy layer that turns AI red-team findings into actual organizational change.</p></div><span class="badge ai">AI security</span></div>
+          <div class="book"><span class="num">23</span><div class="info"><p class="title">Designing Secure and Resilient Software Systems with AI</p><p class="why">Architecture patterns to validate against — and to recommend when they're missing.</p></div><span class="badge ai">AI security</span></div>
+        </div>
+        <div class="skip-box"><b>Note:</b> Purple Team is a practice, not a job title you start in — most people arrive here after real time on a red or blue team. This track assumes that base and focuses on the connective skills.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>built for self-learners · curated, not exhaustive · always pair with a lab</div>
+      <div><a href="#top">back to top ↑</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const buttons = document.querySelectorAll('.track-btn');
+  const panels = document.querySelectorAll('.track-panel');
+
+  function setAccent(track){
+    document.documentElement.style.setProperty('--accent', `var(--${track})`);
+    document.documentElement.style.setProperty('--accent-dim', `var(--${track}-dim)`);
+    document.documentElement.style.setProperty('--accent-glow', `var(--${track}-glow)`);
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const track = btn.dataset.track;
+      buttons.forEach(b => b.classList.toggle('active', b === btn));
+      panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + track));
+      setAccent(track);
+      const switcher = document.querySelector('.switcher-section');
+      const targetY = switcher.getBoundingClientRect().top + window.scrollY;
+      if (window.scrollY > targetY) {
+        window.scrollTo({top: targetY, behavior:'smooth'});
+      }
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    const head = e.target.closest('.phase-head');
+    if(!head) return;
+    head.parentElement.classList.toggle('open');
+  });
+
+  // open first phase of each track by default
+  document.querySelectorAll('.track-panel').forEach(panel => {
+    const first = panel.querySelector('.phase');
+    if(first) first.classList.add('open');
+  });
+</script>
+
+</body>
+</html>
