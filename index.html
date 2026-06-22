@@ -381,6 +381,48 @@
     .cursor{animation:none}
     html{scroll-behavior:auto}
   }
+  /* ===== Note ===== */
+.note{
+  display:flex;
+  gap:14px;
+  padding:16px 18px;
+  margin:20px 0;
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  border-radius:8px;
+  background:var(--bg-card);
+}
+.note .note-icon{
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--accent);
+  flex-shrink:0;
+  padding-top:1px;
+}
+.note .note-label{
+  font-family:var(--mono);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--accent);
+  margin:0 0 6px;
+}
+.note p{
+  margin:0;
+  font-size:13.5px;
+  color:var(--ink-dim);
+  line-height:1.6;
+}
+.note a{color:var(--ink); text-decoration:underline; text-decoration-color:var(--line)}
+.note a:hover{color:var(--accent)}
+
+/* color variants, matching the track colors already in use */
+.note.red{border-left-color:var(--red)}
+.note.red .note-icon, .note.red .note-label{color:var(--red)}
+.note.blue{border-left-color:var(--blue)}
+.note.blue .note-icon, .note.blue .note-label{color:var(--blue)}
+.note.purple{border-left-color:var(--purple)}
+.note.purple .note-icon, .note.purple .note-label{color:var(--purple)}
 </style>
 </head>
 <body>
@@ -406,6 +448,16 @@
       <span class="ln out">skills over certificates. labs over flashcards.<span class="cursor"></span></span>
     </div>
   </div>
+  <div class="note">
+  <span class="note-icon">▸</span>
+  <div>
+    <p class="note-label">Note</p>
+    <p>All good book to learn Cybersecurity: <a href="https://ameer-18-star.github.io/Red_Blue_Purple_Team_Operators_Bookshelf/books.html">Complete Books</a>.</p>
+    <p>This is Practical Vs Theory Vs Hybrid approach to learn Cybersecurity: <a href="https://ameer-18-star.github.io/Red_Blue_Purple_Team_Operators_Bookshelf/practical_vs_theory_vs_hybrid.html">Practical Vs Theory Vs Hybrid</a>.</p>
+    <p>This is Practical Vs Theory approach to learn Cybersecurity: <a href="https://ameer-18-star.github.io/Red_Blue_Purple_Team_Operators_Bookshelf/practical_vs_theory.html">Practical Vs Theory</a>.</p>
+    <p>To get these Books use this link <a href="https://mega.nz/fm/AH0gDBLI">Mega Books Folder</a>.</p>
+  </div>
+</div>
 </header>
 
 <div class="switcher-section">
@@ -423,6 +475,8 @@
     </div>
   </div>
 </div>
+
+  
 
 <main class="wrap">
 
