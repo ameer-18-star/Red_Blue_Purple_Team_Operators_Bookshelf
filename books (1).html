@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Essential Book Roadmap — Operator's Bookshelf</title>
+<meta name="description" content="A skill-first reading order for networking, Linux, scripting, red/blue team, forensics, OSINT, and privacy — sequenced into 8 phases, or sliced by skill area." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0b0d;
+    --bg-raised:#101216;
+    --bg-card:#13151a;
+    --line:#23262d;
+    --line-soft:#1a1c22;
+    --ink:#e4e2dd;
+    --ink-dim:#9499a3;
+    --ink-faint:#5d626b;
+
+    --red:#e2483d;
+    --red-dim:#8a3530;
+    --red-glow:rgba(226,72,61,0.10);
+
+    --blue:#4090e2;
+    --blue-dim:#2f5f8a;
+    --blue-glow:rgba(64,144,226,0.10);
+
+    --purple:#a767e8;
+    --purple-dim:#6a4791;
+    --purple-glow:rgba(167,103,232,0.10);
+
+    --green:#3ddc6a;
+
+    --accent: var(--red);
+    --accent-dim: var(--red-dim);
+    --accent-glow: var(--red-glow);
+
+    --mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+    --sans: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--ink-dim); outline-offset:2px}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+  /* ===== Top bar ===== */
+  .topbar{
+    border-bottom:1px solid var(--line-soft);
+    padding:16px 0;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-faint);
+  }
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .topbar .path{color:var(--ink-dim)}
+  .topbar .path span{color:var(--accent)}
+  .topbar .path a{text-decoration:none;color:var(--ink-dim)}
+  .topbar .path a:hover{color:var(--ink)}
+  .dot-status{display:inline-flex;align-items:center;gap:6px}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 6px var(--green)}
+
+  /* ===== Hero ===== */
+  .hero{
+    padding:80px 0 56px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .hero .kicker{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .hero .kicker::before{
+    content:"";
+    width:18px;height:1px;background:var(--ink-faint);display:inline-block;
+  }
+  .hero h1{
+    font-size:clamp(34px, 5vw, 56px);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    margin:0 0 20px;
+    font-weight:600;
+    max-width:820px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--ink-faint);
+  }
+  .hero p.lead{
+    font-size:17px;
+    color:var(--ink-dim);
+    max-width:640px;
+    margin:0 0 24px;
+  }
+  .hero .terminal{
+    font-family:var(--mono);
+    font-size:13.5px;
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px 20px;
+    max-width:620px;
+    color:var(--ink-dim);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .terminal .ln{display:block;margin:2px 0}
+  .hero .terminal .prompt{color:var(--green)}
+  .hero .terminal .cmd{color:var(--ink)}
+  .hero .terminal .out{color:var(--ink-faint)}
+  .hero .terminal .rule{display:block;margin:8px 0;color:var(--line)}
+  .cursor{
+    display:inline-block;width:7px;height:14px;background:var(--ink-dim);
+    vertical-align:middle;margin-left:2px;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0}}
+
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .tag-pill{
+    font-family:var(--mono);
+    font-size:11.5px;
+    padding:6px 12px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:var(--bg-raised);
+    color:var(--ink-faint);
+  }
+
+  /* ===== Track switcher ===== */
+  .switcher-section{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(10,11,13,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .switcher{
+    display:flex;
+    gap:0;
+    padding:14px 0;
+  }
+  .track-btn{
+    flex:1;
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--ink-dim);
+    font-family:var(--sans);
+    font-size:14.5px;
+    font-weight:600;
+    padding:13px 18px;
+    cursor:pointer;
+    border-radius:8px;
+    margin-right:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:border-color .15s, color .15s, background .15s;
+  }
+  .track-btn:last-child{margin-right:0}
+  .track-btn .tag{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-faint);
+    font-weight:400;
+  }
+  .track-btn .led{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);flex-shrink:0}
+
+  .track-btn[data-track="sequential"]:hover{border-color:var(--red-dim);color:var(--ink)}
+  .track-btn[data-track="byskill"]:hover{border-color:var(--blue-dim);color:var(--ink)}
+
+  .track-btn[data-track="sequential"].active{border-color:var(--red);color:var(--ink);background:var(--red-glow)}
+  .track-btn[data-track="sequential"].active .led{background:var(--red);box-shadow:0 0 8px var(--red)}
+  .track-btn[data-track="byskill"].active{border-color:var(--blue);color:var(--ink);background:var(--blue-glow)}
+  .track-btn[data-track="byskill"].active .led{background:var(--blue);box-shadow:0 0 8px var(--blue)}
+
+  /* ===== Track panels ===== */
+  .track-panel{display:none; padding:48px 0 80px}
+  .track-panel.active{display:block}
+
+  .track-header{
+    margin-bottom:40px;
+    padding-bottom:28px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .track-header .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    margin-bottom:10px;
+  }
+  .track-header h2{
+    font-size:30px;
+    margin:0 0 12px;
+    font-weight:600;
+  }
+  .track-header p{
+    color:var(--ink-dim);
+    max-width:680px;
+    margin:0 0 18px;
+    font-size:15.5px;
+  }
+  .track-meta{
+    display:flex;
+    gap:24px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-faint);
+    flex-wrap:wrap;
+  }
+  .track-meta b{color:var(--ink-dim);font-weight:600}
+
+  /* ===== Phase blocks ===== */
+  .phase{
+    border:1px solid var(--line);
+    border-radius:10px;
+    margin-bottom:16px;
+    background:var(--bg-card);
+    overflow:hidden;
+  }
+  .phase-head{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:18px 22px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .phase-num{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-faint);
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:3px 8px;
+    flex-shrink:0;
+  }
+  .track-panel[data-track="sequential"] .phase-num{color:var(--red);border-color:var(--red-dim)}
+
+  .phase-head h3{
+    margin:0;
+    font-size:16px;
+    font-weight:600;
+    flex:1;
+  }
+  .phase-head .sub{
+    font-size:12.5px;
+    color:var(--ink-faint);
+    font-family:var(--mono);
+    flex-shrink:0;
+  }
+  .chevron{
+    width:9px;height:9px;
+    border-right:1.5px solid var(--ink-faint);
+    border-bottom:1.5px solid var(--ink-faint);
+    transform:rotate(-45deg);
+    transition:transform .2s;
+    flex-shrink:0;
+    margin-right:2px;
+  }
+  .phase.open .chevron{transform:rotate(45deg)}
+
+  .phase-body{
+    display:none;
+    padding:0 22px 22px;
+    border-top:1px solid var(--line-soft);
+  }
+  .phase.open .phase-body{display:block}
+
+  .skill-line{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--ink-faint);
+    margin:18px 0 10px;
+  }
+  .skill-line:first-child{margin-top:20px}
+
+  .book-grid{
+    display:grid;
+    gap:8px;
+    margin-top:14px;
+  }
+  .book{
+    display:flex;
+    gap:12px;
+    padding:11px 13px;
+    border:1px solid var(--line-soft);
+    border-radius:8px;
+    background:var(--bg-raised);
+    align-items:flex-start;
+  }
+  .book .num{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-faint);
+    min-width:22px;
+    padding-top:1px;
+    flex-shrink:0;
+  }
+  .book .num.check{color:var(--green);font-size:13px}
+  .book .info{flex:1; min-width:0}
+  .book .title{
+    font-weight:500;
+    font-size:13.5px;
+    margin:0;
+    color:var(--ink-dim);
+  }
+  .book .why{
+    margin:3px 0 0;
+    font-size:12.5px;
+    color:var(--ink-faint);
+  }
+
+  .skip-box{
+    margin-top:18px;
+    padding:13px 16px;
+    border:1px dashed var(--line);
+    border-radius:8px;
+    font-size:13px;
+    color:var(--ink-faint);
+  }
+  .skip-box b{color:var(--ink-dim)}
+
+  .skip-line{
+    margin-top:14px;
+    padding-top:12px;
+    border-top:1px solid var(--line-soft);
+    font-size:12px;
+    color:var(--ink-faint);
+  }
+  .skip-line b{
+    color:var(--ink-dim);
+    font-family:var(--mono);
+    text-transform:uppercase;
+    font-size:10.5px;
+    letter-spacing:.05em;
+    margin-right:6px;
+  }
+
+  .callout{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:20px 22px;
+    margin:24px 0;
+  }
+  .callout h4{
+    margin:0 0 12px;
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .callout p{margin:0 0 10px;font-size:13.5px;color:var(--ink-dim)}
+  .callout ul{margin:0;padding-left:18px;color:var(--ink-dim);font-size:13.5px}
+  .callout li{margin:6px 0}
+
+  .result-box{
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:10px;
+    background:var(--bg-card);
+    padding:20px 22px;
+    margin-top:24px;
+  }
+  .track-panel[data-track="sequential"] .result-box{border-left-color:var(--red)}
+  .track-panel[data-track="byskill"] .result-box{border-left-color:var(--blue)}
+
+  /* ===== Skill-area grid ===== */
+  .skill-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:18px;
+  }
+  @media (max-width:860px){ .skill-grid{grid-template-columns:1fr} }
+  .skill-grid .full{grid-column:1 / -1}
+
+  .card{
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--bg-card);
+    padding:20px 22px;
+  }
+  .card h3{
+    margin:0 0 14px;
+    font-size:15px;
+    font-weight:600;
+  }
+  .card .subgroup{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--ink-faint);
+    margin:16px 0 8px;
+  }
+  .card .subgroup:first-of-type{margin-top:0}
+
+  /* ===== Footer ===== */
+  footer{
+    border-top:1px solid var(--line-soft);
+    padding:36px 0 60px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-faint);
+  }
+  footer .foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  footer a{color:var(--ink-dim);text-decoration:underline; text-decoration-color: var(--line)}
+  footer a:hover{color:var(--accent)}
+  footer .foot-links{display:flex;gap:18px;flex-wrap:wrap}
+
+  @media (max-width:760px){
+    .switcher{flex-direction:column;gap:10px}
+    .track-btn{margin-right:0}
+    .track-meta{gap:14px}
+    .topbar .wrap{font-size:11px}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .cursor{animation:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="wrap">
+      <div class="path"><a href="index.html">operators-bookshelf</a><span> / </span>books.html</div>
+      <div class="dot-status"><span class="dot"></span>43 BOOKS SEQUENCED</div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="wrap">
+      <p class="kicker">PART OF THE OPERATOR'S BOOKSHELF</p>
+      <h1>Read These. <em>In This Order.</em></h1>
+      <p class="lead">From a few hundred PDFs down to the books that actually move the needle — sequenced into 8 phases for a skill-first curriculum, or sliced by skill area if you already know what you're after. Exam crams and "for dummies" fluff didn't make the cut.</p>
+      <div class="terminal">
+        <span class="ln"><span class="prompt">$</span> <span class="cmd">curriculum --summary</span></span>
+        <span class="ln rule">────────────────────────────────────────</span>
+        <span class="ln"><span class="out">phases</span>          8, sequential</span>
+        <span class="ln"><span class="out">core books</span>      43, no cert padding</span>
+        <span class="ln"><span class="out">skill areas</span>     11, cross-referenced</span>
+        <span class="ln rule">────────────────────────────────────────</span>
+        <span class="ln"><span class="out">status</span>          ready to read<span class="cursor"></span></span>
+      </div>
+      <div class="tag-row">
+        <span class="tag-pill">Networking</span>
+        <span class="tag-pill">Linux</span>
+        <span class="tag-pill">Python • Bash • PowerShell</span>
+        <span class="tag-pill">Pentesting</span>
+        <span class="tag-pill">Red Team</span>
+        <span class="tag-pill">Blue Team • DFIR</span>
+        <span class="tag-pill">OSINT</span>
+        <span class="tag-pill">Privacy</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="switcher-section">
+    <div class="wrap">
+      <div class="switcher">
+        <button class="track-btn active" data-track="sequential" aria-pressed="true">
+          <span class="led"></span>Sequential Roadmap <span class="tag">8 phases</span>
+        </button>
+        <button class="track-btn" data-track="byskill" aria-pressed="false">
+          <span class="led"></span>By Skill Area <span class="tag">11 areas</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- ===================== SEQUENTIAL ROADMAP ===================== -->
+    <div class="track-panel active" data-track="sequential">
+      <div class="track-header">
+        <p class="eyebrow" style="color:var(--red)">READ FIRST → LATER</p>
+        <h2>The Sequential Roadmap</h2>
+        <p>Eight phases, read in order. Each one assumes you've already done the phases before it — skip around and the later books stop making sense.</p>
+        <div class="track-meta"><span><b>43</b> books</span><span><b>8</b> phases</span></div>
+      </div>
+
+      <div class="phase open">
+        <div class="phase-head" tabindex="0" role="button" aria-expanded="true">
+          <span class="chevron"></span>
+          <span class="phase-num">01</span>
+          <h3>Strong Foundations — Networking, Security, Linux Basics</h3>
+          <span class="sub">5 books</span>
+        </div>
+        <div class="phase-body">
+          <div class="book-grid">
+            <div class="book"><span class="num">01</span><div class="info"><p class="title">CompTIA Network+ Guide to Networks</p><p class="why">Networking fundamentals, deep grounding.</p></div></div>
+            <div class="book"><span class="num">02</span><div class="info"><p class="title">Network Basics for Hackers</p><p class="why">The hacker's-eye view of the same fundamentals.</p></div></div>
+            <div class="book"><span class="num">03</span><div class="info"><p class="title">Foundations of Information Security — A Straightforward Introduction</p><p class="why">Clean, broad overview without the bloat.</p></div></div>
+            <div class="book"><span class="num">04</span><div class="info"><p class="title">The Linux Command Line</p><p class="why">Daily Linux mastery.</p></div></div>
+            <div class="book"><span class="num">05</span><div class="info"><p class="title">Linux Basics for Hackers</p><p class="why">Turns Linux into a hacking platform.</p></div></div>
+          </div>
+          <div class="skip-box"><b>Skip for now:</b> Network+/Security+ Exam Cram, Professor Messer notes, official cert guides — too exam-oriented for this path.</div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head" tabindex="0" role="button" aria-expanded="false">
+          <span class="chevron"></span>
+          <span class="phase-num">02</span>
+          <h3>Programming &amp; Scripting — Practical Coding for Hackers</h3>
+          <span class="sub">10 books</span>
+        </div>
+        <div class="phase-body">
+          <p class="skill-line">Python path</p>
+          <div class="book-grid">
+            <div class="book"><span class="num">06</span><div class="info"><p class="title">Python Crash Course, 3rd Edition</p><p class="why">Fundamentals plus real projects.</p></div></div>
+            <div class="book"><span class="num">07</span><div class="info"><p class="title">Beyond the Basic Stuff with Python</p><p class="why">Clean, advanced practices.</p></div></div>
+            <div class="book"><span class="num">08</span><div class="info"><p class="title">Black Hat Python, 2nd Edition</p><p class="why">Exploit and payload scripting.</p></div></div>
+            <div class="book"><span class="num">09</span><div class="info"><p class="title">Gray Hat Python</p><p class="why">Reverse engineering and malware dev.</p></div></div>
+          </div>
+          <p class="skill-line">Bash &amp; PowerShell path</p>
+          <div class="book-grid">
+            <div class="book"><span class="num">10</span><div class="info"><p class="title">Black Hat Bash</p><p class="why">Hacker scripting with Bash.</p></div></div>
+            <div class="book"><span class="num">11</span><div class="info"><p class="title">Wicked Cool Shell Scripts</p><p class="why">Daily automation scripts.</p></div></div>
+            <div class="book"><span class="num">12</span><div class="info"><p class="title">PowerShell for SysAdmins</p><p class="why">Automation in enterprise environments.</p></div></div>
+            <div class="book"><span class="num">13</span><div class="info"><p class="title">PowerShell Scripts for Hackers &amp; Pentesters</p><p class="why">Weaponizing PowerShell.</p></div></div>
+          </div>
+          <p class="skill-line">SQL</p>
+          <div class="book-grid">
+            <div class="book"><span class="num">14</span><div class="info"><p class="title">SQL Injection Attacks and Defense</p><p class="why">A must for web hacking.</p></div></div>
+            <div class="book"><span class="num">15</span><div class="info"><p class="title">The Database Hacker's Handbook</p><p class="why">Advanced database exploitation.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head" tabindex="0" role="button" aria-expanded="false">
+          <span class="chevron"></span>
+          <span class="phase-num">03</span>
+          <h3>Core Hacking &amp; Pentesting</h3>
+          <span class="sub">10 books</span>
+        </div>
+        <div class="phase-body">
+          <div class="book-grid">
+            <div class="book"><span class="num">16</span><div class="info"><p class="title">Hacking: The Art of Exploitation</p><p class="why">Hacker thinking plus low-level exploitation.</p></div></div>
+            <div class="book"><span class="num">17</span><div class="info"><p class="title">Penetration Testing — A Hands-On Introduction to Hacking</p><p class="why">Guided labs.</p></div></div>
+            <div class="book"><span class="num">18</span><div class="info"><p class="title">The Hacker Playbook 1</p><p class="why">First structured pentesting methodology.</p></div></div>
+            <div class="book"><span class="num">19</span><div class="info"><p class="title">The Hacker Playbook 2</p><p class="why">Advanced exploitation and pivoting.</p></div></div>
+            <div class="book"><span class="num">20</span><div class="info"><p class="title">The Hacker Playbook 3</p><p class="why">Red team work and stealth.</p></div></div>
+            <div class="book"><span class="num">21</span><div class="info"><p class="title">Metasploit Pen Testing Cookbook</p><p class="why">Tool mastery.</p></div></div>
+            <div class="book"><span class="num">22</span><div class="info"><p class="title">Mastering Modern Web Penetration Testing</p><p class="why">Modern web attacks.</p></div></div>
+            <div class="book"><span class="num">23</span><div class="info"><p class="title">Black Hat GraphQL</p><p class="why">API exploitation.</p></div></div>
+            <div class="book"><span class="num">24</span><div class="info"><p class="title">Hacking APIs</p><p class="why">Modern API pentesting.</p></div></div>
+            <div class="book"><span class="num">25</span><div class="info"><p class="title">Attacking Next Generation APIs</p><p class="why">Modern API pentesting, continued.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head" tabindex="0" role="button" aria-expanded="false">
+          <span class="chevron"></span>
+          <span class="phase-num">04</span>
+          <h3>Advanced Red Teaming &amp; Exploit Dev</h3>
+          <span class="sub">3 books</span>
+        </div>
+        <div class="phase-body">
+          <div class="book-grid">
+            <div class="book"><span class="num">26</span><div class="info"><p class="title">Red Team Development and Operations</p><p class="why">The full red team workflow.</p></div></div>
+            <div class="book"><span class="num">27</span><div class="info"><p class="title">Attacking Network Protocols</p><p class="why">Advanced protocol exploitation.</p></div></div>
+            <div class="book"><span class="num">28</span><div class="info"><p class="title">Hands-On Ethical Hacking and Network Defense</p><p class="why">A mixed red/blue view.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head" tabindex="0" role="button" aria-expanded="false">
+          <span class="chevron"></span>
+          <span class="phase-num">05</span>
+          <h3>Blue Teaming &amp; Defense</h3>
+          <span class="sub">4 books</span>
+        </div>
+        <div class="phase-body">
+          <div class="book-grid">
+            <div class="book"><span class="num">29</span><div class="info"><p class="title">Digital Forensics and Incident Response, 2nd Edition</p></div></div>
+            <div class="book"><span class="num">30</span><div class="info"><p class="title">Hands-On Incident Response and Digital Forensics</p></div></div>
+            <div class="book"><span class="num">31</span><div class="info"><p class="title">Intelligence-Driven Incident Response</p></div></div>
+            <div class="book"><span class="num">32</span><div class="info"><p class="title">The Practice of Network Security Monitoring</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head" tabindex="0" role="button" aria-expanded="false">
+          <span class="chevron"></span>
+          <span class="phase-num">06</span>
+          <h3>Digital Forensics (Specialized)</h3>
+          <span class="sub">4 books</span>
+        </div>
+        <div class="phase-body">
+          <div class="book-grid">
+            <div class="book"><span class="num">33</span><div class="info"><p class="title">Practical Forensic Imaging</p><p class="why">Evidence capture.</p></div></div>
+            <div class="book"><span class="num">34</span><div class="info"><p class="title">Practical Linux Forensics</p><p class="why">OS-focused investigations.</p></div></div>
+            <div class="book"><span class="num">35</span><div class="info"><p class="title">Digital Forensics with Open Source Tools</p></div></div>
+            <div class="book"><span class="num">36</span><div class="info"><p class="title">Digital Triage Forensics</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head" tabindex="0" role="button" aria-expanded="false">
+          <span class="chevron"></span>
+          <span class="phase-num">07</span>
+          <h3>OSINT &amp; Social Engineering</h3>
+          <span class="sub">4 books</span>
+        </div>
+        <div class="phase-body">
+          <div class="book-grid">
+            <div class="book"><span class="num">37</span><div class="info"><p class="title">Open Source Intelligence Techniques, 8th or 10th Edition</p></div></div>
+            <div class="book"><span class="num">38</span><div class="info"><p class="title">Practical Social Engineering</p></div></div>
+            <div class="book"><span class="num">39</span><div class="info"><p class="title">Social Engineering: The Science of Human Hacking, 2nd Edition</p></div></div>
+            <div class="book"><span class="num">40</span><div class="info"><p class="title">The Art of Deception</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head" tabindex="0" role="button" aria-expanded="false">
+          <span class="chevron"></span>
+          <span class="phase-num">08</span>
+          <h3>Anonymity &amp; Advanced Security</h3>
+          <span class="sub">3 books</span>
+        </div>
+        <div class="phase-body">
+          <div class="book-grid">
+            <div class="book"><span class="num">41</span><div class="info"><p class="title">The Art of Invisibility</p></div></div>
+            <div class="book"><span class="num">42</span><div class="info"><p class="title">Extreme Privacy — What It Takes to Disappear</p></div></div>
+            <div class="book"><span class="num">43</span><div class="info"><p class="title">Countdown to Zero Day</p><p class="why">Real-world APT case study, good as closing inspiration.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <h4>⚡ What to Skip</h4>
+        <ul>
+          <li><strong>Exam Cram / Official Cert Guides</strong> (Network+, Security+, Linux+, PenTest+, CEH, CHFI, SSCP, etc.) — only worth it if you're sitting that specific exam.</li>
+          <li><strong>"For Dummies" titles</strong> — too shallow for this path.</li>
+          <li><strong>Overlapping editions</strong> — duplicate CEH guides, older Digital Forensics Essentials versions, and similar repeats.</li>
+        </ul>
+      </div>
+
+      <div class="result-box">
+        <h4 style="margin:0 0 8px;font-size:14.5px;font-weight:600">🎯 Reading it straight through</h4>
+        <p style="margin:0;font-size:13.5px;color:var(--ink-dim)">Work through these 43 in order and pair each phase with hands-on labs, and you'll cover networking → Linux → scripting → offense → defense → forensics → OSINT → privacy — and end up over-prepared for OSCP, CEH, or CHFI later, if you decide certifications are worth chasing after all.</p>
+      </div>
+    </div>
+
+    <!-- ===================== BY SKILL AREA ===================== -->
+    <div class="track-panel" data-track="byskill">
+      <div class="track-header">
+        <p class="eyebrow" style="color:var(--blue)">LOOK UP A SKILL, NOT A PHASE</p>
+        <h2>By Skill Area</h2>
+        <p>The same curriculum, cut a different way — what to read and what to skip, organized by topic instead of by order. Useful once you already know which skill you're filling in.</p>
+        <div class="track-meta"><span><b>43</b> books</span><span><b>11</b> areas</span></div>
+      </div>
+
+      <div class="skill-grid">
+
+        <div class="card">
+          <h3>Networking</h3>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">CompTIA Network+ Guide to Networks</p><p class="why">Clear fundamentals, deep concepts.</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Network Basics for Hackers</p><p class="why">Hacker-focused, directly practical.</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Practical Packet Analysis (Wireshark)</p><p class="why">The gold standard for real-world packet sniffing.</p></div></div>
+          </div>
+          <p class="skip-line"><b>Skip</b>Exam crams, official student guides, Professor Messer notes — too exam-oriented.</p>
+        </div>
+
+        <div class="card">
+          <h3>Security Foundations</h3>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Foundations of Information Security — A Straightforward Introduction</p><p class="why">Clean, non-bloated theory.</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Gray Hat Hacking — The Ethical Hacker's Handbook</p><p class="why">Practical techniques, modern attacks.</p></div></div>
+          </div>
+          <p class="skip-line"><b>Skip</b>Exam Cram and Messer notes — certification-focused.</p>
+        </div>
+
+        <div class="card">
+          <h3>Linux</h3>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">The Linux Command Line</p><p class="why">The bible for command mastery.</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Linux Basics for Hackers</p><p class="why">Offensive spin, directly hands-on.</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">How Linux Works, 3rd Edition</p><p class="why">Deep OS internals for the advanced level.</p></div></div>
+          </div>
+          <p class="skip-line"><b>Skip</b>Linux+ exam guides, unless you actually need the certification.</p>
+        </div>
+
+        <div class="card">
+          <h3>Programming &amp; Scripting</h3>
+          <p class="subgroup">Python</p>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Python Crash Course, 3rd Edition</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Beyond the Basic Stuff with Python</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Black Hat Python, 2nd Edition</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Gray Hat Python</p></div></div>
+          </div>
+          <p class="subgroup">Bash &amp; PowerShell</p>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Black Hat Bash</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Wicked Cool Shell Scripts</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">PowerShell for SysAdmins</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">PowerShell Scripts for Hackers &amp; Pentesters</p></div></div>
+          </div>
+          <p class="subgroup">SQL</p>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">SQL Injection Attacks and Defense</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">The Database Hacker's Handbook</p></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Red Teaming / Pentesting</h3>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Hacking: The Art of Exploitation</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Penetration Testing — A Hands-On Introduction to Hacking</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">The Hacker Playbook 2</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">The Hacker Playbook 3</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Metasploit Pen Testing Cookbook</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Red Team Development and Operations</p></div></div>
+          </div>
+          <p class="skip-line"><b>Skip</b>PenTest+ cert books — exam-heavy.</p>
+        </div>
+
+        <div class="card">
+          <h3>Blue Teaming / Defense</h3>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Digital Forensics and Incident Response, 2nd Edition</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Hands-On Incident Response and Digital Forensics</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Intelligence-Driven Incident Response</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">The Practice of Network Security Monitoring</p></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Digital Forensics</h3>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Practical Forensic Imaging</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Practical Linux Forensics</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Digital Forensics with Open Source Tools</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Digital Triage Forensics</p></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>OSINT</h3>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Open Source Intelligence Techniques, 8th or 10th Edition</p></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Social Engineering</h3>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Social Engineering: The Science of Human Hacking, 2nd Edition</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Practical Social Engineering</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">The Art of Deception</p></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Anonymity &amp; Privacy</h3>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">The Art of Invisibility</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Extreme Privacy: What It Takes to Disappear</p></div></div>
+          </div>
+        </div>
+
+        <div class="card full">
+          <h3>Specialized / Extra</h3>
+          <div class="book-grid">
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Attacking Network Protocols</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Attacking Next Generation APIs</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Hacking APIs</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Web Hacking 101</p></div></div>
+            <div class="book"><span class="num check">✓</span><div class="info"><p class="title">Countdown to Zero Day</p></div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="result-box">
+        <h4 style="margin:0 0 8px;font-size:14.5px;font-weight:600">🎯 The result</h4>
+        <p style="margin:0 0 10px;font-size:13.5px;color:var(--ink-dim)">From a few hundred available PDFs, this narrows down to roughly 30–35 core books that are worth your shelf space. Everything else — exam notes, "for dummies" titles, duplicate cert guides — is noise for a skills-first path.</p>
+        <ul style="margin:0;padding-left:18px;font-size:13.5px;color:var(--ink-dim)">
+          <li>Covers the full path: networking → Linux → scripting → red/blue team → forensics → OSINT → privacy.</li>
+          <li>Keeps the shelf lean, focused, and practical.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>personal library · curated for self-study</div>
+        <div class="foot-links">
+          <a href="practical_vs_theory_vs_hybrid.html">the 3-way breakdown</a>
+          <a href="practical_vs_theory.html">practical vs theoretical</a>
+          <a href="index.html">↩ back to the reading roadmap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Track switcher
+    const trackBtns = document.querySelectorAll('.track-btn');
+    const trackPanels = document.querySelectorAll('.track-panel');
+    trackBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        trackBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); });
+        trackPanels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+        document.querySelector(`.track-panel[data-track="${btn.dataset.track}"]`).classList.add('active');
+      });
+    });
+
+    // Phase accordions
+    document.querySelectorAll('.phase-head').forEach(head => {
+      const toggle = () => {
+        const phase = head.parentElement;
+        const open = phase.classList.toggle('open');
+        head.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+      head.addEventListener('click', toggle);
+      head.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
+  </script>
+
+</body>
+</html>
